@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Viagens - SOAP Request</title>
+    <link rel="stylesheet" href="assets/css/theme.css">
+</head>
+<body class="bg-light">
+    <header class="d-flex align-items-center gap-3 p-3 mb-4 border-bottom bg-white shadow-sm">
+        <img src="assets/img/ciencias_ul_azul_h_s-ass.png" alt="Logótipo FCUL" style="height:60px;">
+        <h1 class="h4 m-0">Grupo nº 12</h1>
+    </header>
+    <main class="container my-4">
+        <section class="bg-white rounded shadow-sm p-4">
+            <h2 class="mb-3">Resultado da Pesquisa de Viagens com <strong>origem</strong> ou <strong>destino</strong> na FCUL</h2>
+            <p class="mb-4">
+                <strong>Latitude:</strong> 38.75668423<br>
+                <strong>Longitude:</strong> -9.15543404
+            </p>
+            <div id="resultado"></div>
+        </section>
+    </main>
+    <script>
+        // SOAP envelope para o método ListaViagens
+        const soapEnvelope = `
+            <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:cum="urn:cumpwsdl">
+                <soapenv:Header/>
+                <soapenv:Body>
+                    <cum:ListaViagens>
+                        <lat>38.75668423</lat>
+                        <lon>-9.15543404</lon>
+                    </cum:ListaViagens>
+                </soapenv:Body>
+            </soapenv:Envelope>
+        `;
+
+        fetch('http://appserver-01.alunos.di.fc.ul.pt/~asw12/projeto/nuSOAP/server.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'text/xml; charset=utf-8',
+                'SOAPAction': 'urn:cumpwsdl#ListaViagens'
+            },
+            body: soapEnvelope
+        })
+        .then(response => response.text())
+        .then(str => {
+            // Extrai o resultado do XML retornado
+            const parser = new DOMParser();
+            const xmlDoc = parser.parseFromString(str, "text/xml");
+
+            const resultNode = xmlDoc.getElementsByTagName("return")[0];
+            document.getElementById("resultado").innerHTML = resultNode ? resultNode.textContent : "Nenhum resultado encontrado.";
+        })
+        .catch(error => {
+            document.getElementById("resultado").innerText = "Erro ao consultar o serviço SOAP: " + error;
+        });
+    </script>
+</body>
+</html>
