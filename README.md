@@ -54,7 +54,7 @@ Install any dependencies outlined in the included project composer file or guide
 
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/guimbreon/EcoRide.git
+   git clone https://github.com/gcsoares24/EcoRide.git
    ```
 2. **Move to the Project Directory**
    ```bash
@@ -120,6 +120,6 @@ This project is licensed under the MIT License. Please see the LICENSE file for 
 Get in touch via the **EcoRide** platform:
 
 - Main Office: Lisbon, Portugal
-- [Website](https://github.com/guimbreon/EcoRide)
+- [Website](https://github.com/gcsoares24/EcoRide)
 
 Together, let’s reduce the carbon footprint, one ride at a time.
